@@ -1,7 +1,7 @@
 
 
 // ref
-const training_tree = [
+const training_data = [
   {
     name: "Felipe",
     images: [
@@ -96,8 +96,8 @@ Promise.all([
 .then(startWebcam);
 
 // training time for database stored faces
-function getLabeledFaceDescriptions() {
-  const faces = training_tree;
+const getLabeledFaceDescriptions = () => {
+  const faces = training_data;
   return Promise.all(
     faces.map(async (face) => {
       const descriptions = [];
