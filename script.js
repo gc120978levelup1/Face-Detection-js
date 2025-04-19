@@ -28,6 +28,9 @@ const training_tree = [
     images: [
       "./labels/Garry/1.jpg",
       "./labels/Garry/2.jpg",
+      "https://scontent.fceb2-1.fna.fbcdn.net/v/t39.30808-6/461169407_8297452433675803_2581180205887555989_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=aa7094&_nc_eui2=AeE1MmEwNmZgH4YfU5oaaGxOEYJWzx86KdARglbPHzop0KvUvOyPNaIccX8LxrPurC0p1DO6t5Ph6NVKudDKaGQm&_nc_ohc=CPO8LbJPZYQQ7kNvwHF-UQU&_nc_oc=AdmR5xrKx9vkaKWnMGp-bqSMCNklQBN_CH7ZlRPDTZp3YeBasfLMMHA760P13_SLhe4&_nc_zt=23&_nc_ht=scontent.fceb2-1.fna&_nc_gid=_Bf0AbCR_CbcsT8w9WPTUA&oh=00_AfGESaVu1oUHVBMz0XkOqnJfe-nUp0AWzsmQgiq-IJmtjg&oe=6809363F",
+      "https://scontent.fceb6-1.fna.fbcdn.net/v/t39.30808-6/465782553_10161159446454092_2602332091773645185_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=cf85f3&_nc_eui2=AeEwPDqJ9shkkRQ5j_hOxEHpPri_tAn3tbM-uL-0Cfe1sxVmy_BY3-dbv_hh5b3g1VzaYEj_-_22-IBau8v57Yap&_nc_ohc=ZAeOf5oASDsQ7kNvwELJH6X&_nc_oc=AdlF9FFdpz-y-DcZtyMQRekSeOHd-icsOT1ya8X3X0vWnWANzRnJaTADMkknrBhqbEM&_nc_zt=23&_nc_ht=scontent.fceb6-1.fna&_nc_gid=8MP3IEYSR7e6QlhG0oGDSQ&oh=00_AfG2FSV2DdpKCHQ9tw-muwnEBdUgZ-siE-AE_uC-ZImG0A&oe=68090FA2",
+      "https://scontent.fceb2-1.fna.fbcdn.net/v/t39.30808-6/459889279_26849214878027901_7013988479687942446_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=cf85f3&_nc_eui2=AeHcYAsHBZ2mkVlT1joelLSLLsp7SJ6QGW4uyntInpAZbkxDXinJa1SZviZDySx5USHx6hEbyj561n1vUFxJp4uD&_nc_ohc=Z8FSSCpto88Q7kNvwGp7Rz4&_nc_oc=AdnPhiaO2ZP30QndE4C7WDlpmRTm7mnMjzX-qGA-Z6jbVGkEVqnV-aS2ZDL7csGbYW0&_nc_zt=23&_nc_ht=scontent.fceb2-1.fna&_nc_gid=sPTcoXXdAfW7dISkXrqRMg&oh=00_AfEqmIUDh_ByfWCPFLBmqkwDgIJiuv5aNUwcJwl-Vo14KA&oe=680931E1",
     ]
   },
   {
@@ -117,32 +120,32 @@ video.addEventListener("play", async () => {
   console.log("Start training .... ");
   // Start Training Face Detection from Faces stored in face database
   const labeledFaceDescriptors = await getLabeledFaceDescriptions();
-  const faceDatabase = new faceapi.FaceMatcher(labeledFaceDescriptors);
+  const faceDatabaseAPI = new faceapi.FaceMatcher(labeledFaceDescriptors);
 
-  console.log("Start initialize drawing canvas dimensions for facematching.... ");
-  //initialize drawing canvas dimensions for facematching
-  const canvas = faceapi.createCanvasFromMedia(video); 
-  document.body.append(canvas); // spawn a canvas
+  console.log("Start initialize drawing canvas2 dimensions for facematching.... ");
+  //initialize drawing canvas2 dimensions for facematching
+  const canvas2 = faceapi.createCanvasFromMedia(video); 
+  document.body.append(canvas2); // spawn a canvas2
   const displaySize = { width: video.width, height: video.height };
-  faceapi.matchDimensions(canvas, displaySize);
-  console.log("End initialize drawing canvas dimensions for facematching.... DONE");
+  faceapi.matchDimensions(canvas2, displaySize);
+  console.log("End initialize drawing canvas2 dimensions for facematching.... DONE");
   console.log("");
 
   console.log("I am now actively looking for faces..... :)");
   // Start of every 100ms interval
   setInterval(async () => {
     // detect a face from the webcam
-    const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
+  const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
 
-    // resize detected face to match canvas dimensions
-    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    // resize detected face to match canvas2 dimensions
+  const resizedDetections = faceapi.resizeResults(detections, displaySize);
 
-    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height); // clear screen
+  canvas2.getContext("2d").clearRect(0, 0, canvas2.width, canvas2.height); // just the clear screen/canvas2
 
-    // for each face detected find a match from the stored faceDatabase
-    const recognizedFaces = resizedDetections.map((detectedFace) => {
-      return faceDatabase.findBestMatch(detectedFace.descriptor);
-    });
+    // for each face detected find a match from the stored face Database
+  const recognizedFaces = resizedDetections.map((detectedFace) => {
+    return faceDatabaseAPI.findBestMatch(detectedFace.descriptor);
+  });
 
     // lets peek at the results // dere mubutang og emit/event handling
     if (recognizedFaces[0]){
@@ -156,7 +159,7 @@ video.addEventListener("play", async () => {
       const drawBox = new faceapi.draw.DrawBox(box, {
         label: recognizedFace,
       });
-      drawBox.draw(canvas);
+      drawBox.draw(canvas2);
     });
 
   }, 100);
