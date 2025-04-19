@@ -64,7 +64,7 @@ video.addEventListener("play", async () => {
   console.log("I am now actively looking for faces..... :)");
   // Start of every 100ms interval
   setInterval(async () => {
-    // detect a face
+    // detect a face from video
     const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
 
     // resize detected face to match canvas dimensions
@@ -77,7 +77,7 @@ video.addEventListener("play", async () => {
       return faceDatabase.findBestMatch(d.descriptor);
     });
 
-    // lets peek at the results // dere mubutang og emit
+    // lets peek at the results // dere mubutang og emit/event handling
     if (results[0]){
       console.log("Name ",results[0].label);
       console.log("Distance ",results[0].distance);
