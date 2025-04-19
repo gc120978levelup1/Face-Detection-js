@@ -72,7 +72,7 @@ video.addEventListener("play", async () => {
 
     canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height); // clear screen
 
-    // for each face find a match from the stored faceDatabase
+    // for each face detected find a match from the stored faceDatabase
     const results = resizedDetections.map((d) => {
       return faceDatabase.findBestMatch(d.descriptor);
     });
