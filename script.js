@@ -1,4 +1,6 @@
 
+
+// ref
 const training_tree = [
   {
     name: "Felipe",
@@ -63,9 +65,10 @@ const training_tree = [
   },
 ];
 
+// ref
 const video = document.getElementById("video");
 
-function startWebcam() {
+const startWebcam = () => {
   navigator.mediaDevices
     .getUserMedia({
       video: true,
@@ -85,7 +88,9 @@ Promise.all([
   faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
   faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
   faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-]).then(startWebcam);
+])
+// its ok to sepearate this function. but for now putting startWebcam in then is OK
+.then(startWebcam);
 
 // training time for database stored faces
 function getLabeledFaceDescriptions() {
@@ -126,7 +131,7 @@ video.addEventListener("play", async () => {
   console.log("I am now actively looking for faces..... :)");
   // Start of every 100ms interval
   setInterval(async () => {
-    // detect a face from video
+    // detect a face from the webcam
     const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
 
     // resize detected face to match canvas dimensions
